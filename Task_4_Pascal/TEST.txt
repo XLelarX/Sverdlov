@@ -1,0 +1,18 @@
+MODULE Euqlid;
+
+IMPORT In, Out;
+
+VAR
+   X, Y, Z, H: INTEGER;
+BEGIN
+   X := Y;
+   X := Y;
+   WHILE X # Y DO
+      IF X > Y THEN
+         DEC( X, Y )
+      ELSE
+         DEC( Y, X )
+      END;
+   END;
+   Out.Int(X,1);
+END Euqlid.
