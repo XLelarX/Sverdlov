@@ -1,11 +1,1 @@
-class Pars {
-    static void Compile() {
-        int n = 0;
-        while (Scan.Lex != 33) {
-            Scan.NextLex();
-            n = 0e131;
-        }
-        System.out.println();
-        System.out.println(n);
-    }
-}
+9999999999999999L

@@ -1,6 +1,8 @@
 package com.company;
 
 
+import java.util.Objects;
+
 class Scan {
     private static int NAME_LENGTH = 31;
 
@@ -29,7 +31,7 @@ class Scan {
             lexDog = 100, lexLinkToMethod = 101, lexTripleDot = 102, lexString = 103,
             lexCharacter = 104, lexUnicode = 105, lexNull = 106, lexTrue = 107, lexFalse = 108,
             lexBackSlash = 109, lexBS = 110, lexHT = 111, lexLF = 112, lexFF = 113, lexCR = 114,
-            lexDoubleQuote = 115, lexQuote = 116;
+            lexDoubleQuote = 115, lexQuote = 116, lexLatin = 117;
 
 
     static int Lex;
@@ -57,121 +59,274 @@ class Scan {
         for (int i = nkw - 1; i >= 0; i--)
             if (KWTable[i].Word.compareTo(Name) == 0)
                 return KWTable[i].Lex;
+        //TODO Не повторяющиеся имена?
         return lexName;
     }
 
     private static void Ident() {
         int i = 0;
         Buf.setLength(0);
+
         do {
             if (i++ < NAME_LENGTH)
-                Buf.append((char) Text.Ch);
+                Buf.append((char) Text.ch);
             else
                 Error.Message("Слишком длинное имя");
             Text.NextCh();
-        } while (Character.isLetterOrDigit((char) Text.Ch));
+        } while (Character.isLetterOrDigit((char) Text.ch) || Text.ch == '_' || Text.ch == '$');
+
         Name = Buf.toString();
         Lex = TestKW();
     }
 
     private static void Number() {
         Lex = lexNum;
-        int numInt = 0;
-        double numDouble = 0;
-
-        if (Text.Ch == '0') {
+        if (Text.ch == '0') {
             Text.NextCh();
-            if (Text.Ch == 'x' || Text.Ch == 'X') {
+
+            if (Text.ch == 'x' || Text.ch == 'X')
+                hexNumbers();
+            else if (isOctNumber() || Text.ch == '_')
+                octNumbers();
+            else if (Text.ch == 'b' || Text.ch == 'B')
+                binNumbers();
+            else if (isLong())
                 Text.NextCh();
-                if (!Character.isDigit((char) Text.Ch) && (Text.Ch > 'F' || Text.Ch < 'A') && (Text.Ch > 'f' || Text.Ch < 'a'))
-                    Error.Expected("Недопустимый символ");
-                String str = "";
-                do {
-                    str += (char) Text.Ch;
-                    int d = Integer.parseInt(str, 16);
+        } else decNumbers();
 
-                    if ((Integer.MAX_VALUE - d) < 0)
-                        Error.Message("Слишком большое число");
+//            else if (Text.ch == '.') {
+//                Text.NextCh();
+//                numberDouble(0);
+//            } else elevateE();
 
-                    Text.NextCh();
+//            else if (Text.ch == '.') {
+//                Text.NextCh();
+//                numberDouble(numInt);
+//                else elevateE();
+    }
+
+    private static void decNumbers() {
+        long max = Long.MAX_VALUE;
+        long sum = 0;
+
+        do {
+            int d = Text.ch - '0';
+
+            if ((max - d) / 10 >= sum)
+                sum = 10 * sum + d;
+            else {
+                Location.LexPos = Location.Pos;
+                Error.Message("Слишком большое число");
+            }
+
+            Text.NextCh();
+            while (Text.ch == '_') {
+                Text.NextCh();
+                if (isLong()) {
+                    Location.LexPos = Location.Pos;
+                    Error.Message("Недопустимый символ");
                 }
-                while (Character.isDigit((char) Text.Ch) || (Text.Ch <= 'F' && Text.Ch >= 'A') || (Text.Ch <= 'f' && Text.Ch >= 'a'));
-            } else if (Text.Ch == 'b' || Text.Ch == 'B') {
-                Text.NextCh();
-                if (Text.Ch != '1' && Text.Ch != '0')
-                    Error.Expected("Недопустимый символ");
-                String str = "";
-                do {
-                    str += (char) Text.Ch;
-                    int d = Integer.parseInt(str, 2);
+            }
 
-                    if ((Integer.MAX_VALUE - d) < 0)
-                        Error.Message("Слишком большое число");
+            if (!isLong() && !Character.isDigit(Text.ch)) {
+                max = upToLong(sum);
+            }
+        } while (Character.isDigit((char) Text.ch));
 
-                    Text.NextCh();
-                } while (Text.Ch == '1' || Text.Ch == '0');
-            } else if (Text.Ch <= '7' && Text.Ch >= '0') {
-                String str = "";
-                do {
-                    str += (char) Text.Ch;
-                    int d = Integer.parseInt(str, 8);
+        if (isLong())
+            Text.NextCh();
+    }
 
-                    if ((Integer.MAX_VALUE - d) < 0)
-                        Error.Message("Слишком большое число");
+    private static void binNumbers() {
+        Text.NextCh();
 
-                    Text.NextCh();
-                } while (Text.Ch <= '7' && Text.Ch >= '0');
-            } else if (Text.Ch == '.') {
-                Text.NextCh();
-                numberDouble(0);
-            } else elevateE();
-        } else
-            do {
-                int d = Text.Ch - '0';
-                if ((Integer.MAX_VALUE - d) / 10 >= numInt)
-                    numInt = 10 * numInt + d;
-                else
+        if (!isBinNumber()) {
+            Location.LexPos = Location.Pos;
+            Error.Expected("Недопустимый символ");
+        }
+
+        StringBuilder str = new StringBuilder();
+        int length = 0;
+        long max = Long.MAX_VALUE;
+
+        do {
+
+
+            str.append((char) Text.ch);
+            length++;
+
+            long sum = 0;
+            int j = 0;
+            for (int i = length - 1; i >= 0; i--) {
+                long d = (long) (Integer.parseInt("" + str.charAt(j), 2) * Math.pow(2, i));
+                if ((max - sum) >= d) {
+                    sum += d;
+                } else {
+                    Location.LexPos = Location.Pos;
                     Error.Message("Слишком большое число");
-                Text.NextCh();
+                }
+                j++;
+            }
 
-                if (Text.Ch == 'L' || Text.Ch == 'l')
-                    Text.NextCh();
-                else if (Text.Ch == '.') {
-                    Text.NextCh();
-                    numberDouble(numInt);
-                } else elevateE();
-            } while (Character.isDigit((char) Text.Ch) || Text.Ch == '_');
+            Text.NextCh();
+
+            while (Text.ch == '_') {
+                Text.NextCh();
+                if (isLong()) {
+                    Location.LexPos = Location.Pos;
+                    Error.Message("Недопустимый символ");
+                }
+            }
+
+            if (!isLong() && !isBinNumber()) {
+                max = upToLong(sum);
+            }
+        } while (isBinNumber());
+
+        if (isLong())
+            Text.NextCh();
+    }
+
+    private static void octNumbers() {
+        while (Text.ch == '_')
+            Text.NextCh();
+
+        if (!isOctNumber()) {
+            Location.LexPos = Location.Pos;
+            Error.Expected("Недопустимый символ");
+        }
+
+        StringBuilder str = new StringBuilder();
+        int length = 0;
+        long max = Long.MAX_VALUE;
+        do {
+            str.append((char) Text.ch);
+            length++;
+
+            long sum = 0;
+            int j = 0;
+            for (int i = length - 1; i >= 0; i--) {
+                long d = (long) (Integer.parseInt("" + str.charAt(j), 8) * Math.pow(8, i));
+                if ((max - sum) >= d) {
+                    sum += d;
+                } else {
+                    Location.LexPos = Location.Pos;
+                    Error.Message("Слишком большое число");
+                }
+                j++;
+            }
+            Text.NextCh();
+
+            while (Text.ch == '_') {
+                Text.NextCh();
+                if (isLong()) {
+                    Location.LexPos = Location.Pos;
+                    Error.Message("Недопустимый символ");
+                }
+            }
+
+            if (!isLong() && !isOctNumber()) {
+                max = upToLong(sum);
+            }
+
+        } while (isOctNumber());
+        if (isLong())
+            Text.NextCh();
+    }
+
+    private static void hexNumbers() {
+        Text.NextCh();
+
+        if (!isHexNumber()) {
+            Location.LexPos = Location.Pos;
+            Error.Expected("Недопустимый символ");
+        }
+
+        StringBuilder str = new StringBuilder();
+        int length = 0;
+        long max = Long.MAX_VALUE;
+
+        do {
+
+
+            str.append((char) Text.ch);
+            length++;
+
+            long sum = 0;
+            int j = 0;
+            for (int i = length - 1; i >= 0; i--) {
+                long d = (long) (Integer.parseInt("" + str.charAt(j), 16) * Math.pow(16, i));
+                if ((max - sum) >= d) {
+                    sum += d;
+                } else {
+                    Location.LexPos = Location.Pos;
+                    Error.Message("Слишком большое число");
+                }
+                j++;
+            }
+
+            Text.NextCh();
+
+            while (Text.ch == '_') {
+                Text.NextCh();
+                if (isLong()) {
+                    Location.LexPos = Location.Pos;
+                    Error.Message("Недопустимый символ");
+                }
+            }
+
+            if (!isLong() && !isHexNumber()) {
+                max = upToLong(sum);
+            }
+        } while (isHexNumber());
+        if (isLong())
+            Text.NextCh();
+    }
+
+    private static long upToLong(long sum) {
+        long max;
+        max = Integer.MAX_VALUE;
+
+        if (sum > max) {
+            Location.LexPos = Location.Pos;
+            Error.Message("Слишком большое число");
+        }
+        return max;
+    }
+
+    private static boolean isLong() {
+        return Text.ch == 'l' || Text.ch == 'L';
     }
 
     private static void numberDouble(int numInt) {
         double numDouble;
-        if (Character.isDigit(Text.Ch)) {
+        if (Character.isDigit(Text.ch)) {
             numDouble = numInt;
             int i = 1;
             do {
-                double d2 = Text.Ch - '0';
+                double d2 = Text.ch - '0';
                 numDouble = numDouble + d2 / Math.pow(10, i);
                 i++;
                 Text.NextCh();
-                if (Text.Ch == 'F' || Text.Ch == 'f')
+                if (Text.ch == 'F' || Text.ch == 'f')
                     Text.NextCh();
                 else elevateE();
-            } while (Character.isDigit((char) Text.Ch) || Text.Ch == '_');
+            } while (Character.isDigit((char) Text.ch) || Text.ch == '_');
         }
     }
 
     private static void elevateE() {
-        if (Text.Ch == 'E' || Text.Ch == 'e') {
+        if (Text.ch == 'E' || Text.ch == 'e') {
             Text.NextCh();
-            if (Text.Ch == '-')
+            if (Text.ch == '-')
                 Text.NextCh();
-            if (Character.isDigit(Text.Ch)) {
+            if (Character.isDigit(Text.ch)) {
                 int num = 0;
                 do {
-                    int d3 = Text.Ch - '0';
+                    int d3 = Text.ch - '0';
                     num = 10 * num + d3;
                     Text.NextCh();
-                } while (Character.isDigit((char) Text.Ch) || Text.Ch == '_');
+                } while (Character.isDigit((char) Text.ch) || Text.ch == '_');
             } else Error.Message("Недопустимый символ");
         }
     }
@@ -179,17 +334,14 @@ class Scan {
     private static void Comment() {
         Text.NextCh();
         do {
-            while (Text.Ch != '*' && Text.Ch != Text.chEOT)
-                if (Text.Ch == '/') {
-                    Text.NextCh();
-                    if (Text.Ch == '*')
-                        Comment();
-                } else
-                    Text.NextCh();
-            if (Text.Ch == '*')
+            while (Text.ch != '*' && Text.ch != Text.chEOT)
                 Text.NextCh();
-        } while (Text.Ch != '/' && Text.Ch != Text.chEOT);
-        if (Text.Ch == '/')
+
+            if (Text.ch == '*')
+                Text.NextCh();
+        } while (Text.ch != '/' && Text.ch != Text.chEOT);
+
+        if (Text.ch == '/')
             Text.NextCh();
         else {
             Location.LexPos = Location.Pos;
@@ -199,90 +351,147 @@ class Scan {
 
     private static void lineComment() {
         Text.NextCh();
-        do
+
+        while (Text.ch != Text.chEOT && Text.ch != Text.chEOL)
             Text.NextCh();
-        while (Text.Ch != Text.chEOL);
     }
 
-    static void NextLex() {
-        while (Text.Ch == Text.chSpace || Text.Ch == Text.chEOL || Text.Ch == Text.chTab)
+    private static void string() {//TODO String lex + Slash lex?
+        while (Text.ch != '"' && Text.ch != Text.chEOL && Text.ch != Text.chEOT) {
+            boolean ok = true;
+
+            if (Text.ch == '\\') {
+                Text.NextCh();
+                ok = false;
+                slashCombinations();
+            }
+
+            if (ok)
+                Text.NextCh();
+
+        }
+
+        if (Text.ch == '"')
+            Text.NextCh();
+        else
+            Error.Message("String не закончен");
+    }
+
+    private static void character() {
+        if (Text.ch != '\'') {
+            boolean ok = true;
+            if (Text.ch == '\\') {
+                Text.NextCh();
+                ok = false;
+                slashCombinations();
+            }
+            if (ok)
+                Text.NextCh();
+
+            if (Text.ch == '\'') {
+                Text.NextCh();
+            } else {
+                Location.LexPos = Location.Pos;
+                Error.Message("char не закончен");
+            }
+        } else {
+            Location.LexPos = Location.Pos;
+            Error.Message("Недопустимый символ");
+        }
+    }
+
+    static void nextLex() {
+        while (Text.ch == Text.chSpace || Text.ch == Text.chEOL || Text.ch == Text.chTab)
             Text.NextCh();
         Location.LexPos = Location.Pos;
-        if (Character.isLetter((char) Text.Ch))
+
+        if (Character.isLetter((char) Text.ch) || Text.ch == '_' || Text.ch == '$')
             Ident();
-        else if (Character.isDigit((char) Text.Ch))
+
+        else if (Character.isDigit((char) Text.ch))
             Number();
+
         else
-            switch (Text.Ch) {
+            switch (Text.ch) {
                 case '[':
                     Text.NextCh();
                     Lex = lexLBracket;
                     break;
+
                 case ']':
                     Text.NextCh();
                     Lex = lexRBracket;
                     break;
+
                 case '{':
                     Text.NextCh();
                     Lex = lexBegin;
                     break;
+
                 case '}':
                     Text.NextCh();
                     Lex = lexEnd;
                     break;
+
                 case ';':
                     Text.NextCh();
                     Lex = lexSemi;
                     break;
+
                 case ':':
                     Text.NextCh();
-                    if (Text.Ch == ':') {
+                    if (Text.ch == ':') {
                         Text.NextCh();
                         Lex = lexLinkToMethod;
                     } else
                         Lex = lexColon;
                     break;
+
                 case '.':
                     Text.NextCh();
-                    if (Text.Ch == '.') {
+                    if (Text.ch == '.') {
                         Text.NextCh();
-                        if (Text.Ch == '.') {
+                        if (Text.ch == '.') {
                             Text.NextCh();
                             Lex = lexTripleDot;
                         } else Error.Expected("Недопустимый символ");
-                    } else if (Character.isDigit(Text.Ch))
+                    } else if (Character.isDigit(Text.ch))
                         numberDouble(0);
                     else
                         Lex = lexDot;
                     break;
+
                 case ',':
                     Text.NextCh();
                     Lex = lexComma;
                     break;
+
                 case '=':
                     Text.NextCh();
-                    if (Text.Ch == '=') {
+                    if (Text.ch == '=') {
                         Text.NextCh();
                         Lex = lexEQ;
                     } else
                         Lex = lexAss;
                     break;
+
                 case '!':
                     Text.NextCh();
-                    if (Text.Ch == '=') {
+                    if (Text.ch == '=') {
                         Text.NextCh();
                         Lex = lexNE;
                     } else
                         Lex = lexNot;
                     break;
+
                 case '<':
                     Text.NextCh();
-                    if (Text.Ch == '=') {
+                    if (Text.ch == '=') {
                         Text.NextCh();
                         Lex = lexLE;
-                    } else if (Text.Ch == '<') {
+                    } else if (Text.ch == '<') {
                         Text.NextCh();
-                        if (Text.Ch == '=') {
+                        if (Text.ch == '=') {
                             Text.NextCh();
                             Lex = lexLShiftWithAss;
                         } else
@@ -290,21 +499,22 @@ class Scan {
                     } else
                         Lex = lexLT;
                     break;
+
                 case '>':
                     Text.NextCh();
-                    if (Text.Ch == '=') {
+                    if (Text.ch == '=') {
                         Text.NextCh();
                         Lex = lexGE;
-                    } else if (Text.Ch == '>') {
+                    } else if (Text.ch == '>') {
                         Text.NextCh();
-                        if (Text.Ch == '>') {
+                        if (Text.ch == '>') {
                             Text.NextCh();
-                            if (Text.Ch == '=') {
+                            if (Text.ch == '=') {
                                 Text.NextCh();
                                 Lex = lexRShiftWithFillZerosWithAss;
                             } else
                                 Lex = lexRShiftWithFillZeros;
-                        } else if (Text.Ch == '=') {
+                        } else if (Text.ch == '=') {
                             Text.NextCh();
                             Lex = lexRShiftWithAss;
                         } else
@@ -312,188 +522,270 @@ class Scan {
                     } else
                         Lex = lexGT;
                     break;
+
                 case '(':
                     Text.NextCh();
                     Lex = lexLPar;
                     break;
+
                 case ')':
                     Text.NextCh();
                     Lex = lexRPar;
                     break;
+
                 case '+':
                     Text.NextCh();
-                    if (Text.Ch == '+') {
+                    if (Text.ch == '+') {
                         Text.NextCh();
                         Lex = lexIncrement;
-                    } else if (Text.Ch == '=') {
+                    } else if (Text.ch == '=') {
                         Text.NextCh();
                         Lex = lexPlusWithAss;
                     } else
                         Lex = lexPlus;
                     break;
+
                 case '-':
                     Text.NextCh();
-                    if (Text.Ch == '-') {
+                    if (Text.ch == '-') {
                         Text.NextCh();
                         Lex = lexDecrement;
-                    } else if (Text.Ch == '=') {
+                    } else if (Text.ch == '=') {
                         Text.NextCh();
                         Lex = lexMinusWithAss;
-                    } else if (Text.Ch == '>') {
+                    } else if (Text.ch == '>') {
                         Text.NextCh();
                         Lex = lexLambda;
                     } else
                         Lex = lexMinus;
                     break;
+
                 case '*':
                     Text.NextCh();
-                    if (Text.Ch == '=') {
+                    if (Text.ch == '=') {
                         Text.NextCh();
                         Lex = lexMultWithAss;
                     } else
                         Lex = lexMult;
                     break;
+
                 case '/':
                     Text.NextCh();
-                    if (Text.Ch == '=') {
+                    if (Text.ch == '=') {
                         Text.NextCh();
                         Lex = lexDivWithAss;
-                    } else if (Text.Ch == '*') {
+                    } else if (Text.ch == '*') {
                         Comment();
-                        NextLex();
-                    } else if (Text.Ch == '/') {
+                        nextLex();
+                    } else if (Text.ch == '/') {
                         lineComment();
-                        NextLex();
+                        nextLex();
                     } else
                         Lex = lexDiv;
                     break;
+
                 case '%':
                     Text.NextCh();
-                    if (Text.Ch == '=') {
+                    if (Text.ch == '=') {
                         Text.NextCh();
                         Lex = lexModWithAss;
                     } else
                         Lex = lexMod;
                     break;
+
                 case '&':
                     Text.NextCh();
-                    if (Text.Ch == '=') {
+                    if (Text.ch == '=') {
                         Text.NextCh();
                         Lex = lexAndWithAss;
-                    } else if (Text.Ch == '&') {
+                    } else if (Text.ch == '&') {
                         Text.NextCh();
                         Lex = lexDoubleAnd;
                     } else
                         Lex = lexAnd;
                     break;
+
                 case '|':
                     Text.NextCh();
-                    if (Text.Ch == '=') {
+                    if (Text.ch == '=') {
                         Text.NextCh();
                         Lex = lexOrWithAss;
-                    } else if (Text.Ch == '|') {
+                    } else if (Text.ch == '|') {
                         Text.NextCh();
                         Lex = lexDoubleOr;
                     } else
                         Lex = lexOr;
                     break;
+
                 case '^':
                     Text.NextCh();
-                    if (Text.Ch == '=') {
+                    if (Text.ch == '=') {
                         Text.NextCh();
                         Lex = lexBitwiseExclusiveOrWithAss;
                     } else
                         Lex = lexBitwiseExclusiveOr;
                     break;
+
                 case '~':
                     Text.NextCh();
                     Lex = lexBitwiseNot;
                     break;
+
                 case '?':
                     Text.NextCh();
                     Lex = lexShortIf;
                     break;
+
                 case '@':
                     Text.NextCh();
                     Lex = lexDog;
                     break;
+
                 case '"':
                     Text.NextCh();
+                    string();
                     Lex = lexString;
                     break;
+
                 case '\'':
                     Text.NextCh();
+                    character();
                     Lex = lexCharacter;
                     break;
-                case '\\':
-                    Text.NextCh();
-                    if (Text.Ch == 'u')
-                        numberOfUnicode();
-                    else if (isaNumber())
-                        numberOfLatin();
-                    else if (Text.Ch == 'b') {
-                        Text.NextCh();
-                        Lex = lexBS;
-                    } else if (Text.Ch == 't') {
-                        Text.NextCh();
-                        Lex = lexHT;
-                    } else if (Text.Ch == 'n') {
-                        Text.NextCh();
-                        Lex = lexLF;
-                    } else if (Text.Ch == 'f') {
-                        Text.NextCh();
-                        Lex = lexFF;
-                    } else if (Text.Ch == 'r') {
-                        Text.NextCh();
-                        Lex = lexCR;
-                    } else if (Text.Ch == '\"') {
-                        Text.NextCh();
-                        Lex = lexDoubleQuote;
-                    } else if (Text.Ch == '\'') {
-                        Text.NextCh();
-                        Lex = lexQuote;
-                    } else if (Text.Ch == '\\') {
-                        Text.NextCh();
-                        Lex = lexBackSlash;
-                    } else
-                        Error.Message("Недопустимый символ");
-                    break;
+
                 case Text.chEOT:
                     Lex = lexEOT;
                     break;
+
                 default:
                     Error.Message("Недопустимый символ");
             }
     }
 
-    private static boolean isaNumber() {
-        return Text.Ch <= '9' && Text.Ch >= '0';
+    private static void slashCombinations() {
+        if (Text.ch == 'u')
+            numberOfUnicode();
+        else if (isOctNumber())
+            numberOfLatin();
+        else if (Text.ch == 'b') {
+            Text.NextCh();
+            Lex = lexBS;
+        } else if (Text.ch == 't') {
+            Text.NextCh();
+            Lex = lexHT;
+        } else if (Text.ch == 'n') {
+            Text.NextCh();
+            Lex = lexLF;
+        } else if (Text.ch == 'f') {
+            Text.NextCh();
+            Lex = lexFF;
+        } else if (Text.ch == 'r') {
+            Text.NextCh();
+            Lex = lexCR;
+        } else if (Text.ch == '\"') {
+            Text.NextCh();
+            Lex = lexDoubleQuote;
+        } else if (Text.ch == '\'') {
+            Text.NextCh();
+            Lex = lexQuote;
+        } else if (Text.ch == '\\') {
+            Text.NextCh();
+            Lex = lexBackSlash;
+        } else {
+            Location.LexPos = Location.Pos;
+            Error.Message("Недопустимый символ");
+        }
     }
 
     private static void numberOfLatin() {
+        String checkString = "" + (char) Text.ch;
         Text.NextCh();
+
         for (int i = 0; i < 2; i++) {
-            if (isaNumber())
-                Text.NextCh();
-            else
+            if (isOctNumber()) {
+                // System.out.println("     :" + (char) Text.ch);
+                checkString += (char) Text.ch;
+                if (Integer.parseInt(checkString) <= 377) {
+                    Text.NextCh();
+                } else {
+                    Location.LexPos = Location.Pos - 2;
+                    Error.Message("Слишком большое число");
+                }
+            } else
                 return;
         }
 
-        Lex = lexUnicode;
+        Lex = lexLatin;
+    }
+
+    private static boolean isBinNumber() {
+        return Text.ch >= '0' && Text.ch <= '1';
+    }
+
+    private static boolean isOctNumber() {
+        return Text.ch >= '0' && Text.ch <= '7';
+    }
+
+    private static boolean isHexNumber() {
+        return Character.isDigit((char) Text.ch) || (Text.ch >= 'A' && Text.ch <= 'F') || (Text.ch >= 'a' && Text.ch <= 'f');
     }
 
     private static void numberOfUnicode() {
-        Text.NextCh();
-        for (int i = 0; i < 4; i++) {
-            if (isaNumber())
-                Text.NextCh();
-            else
-                Error.Message("Недопустимый символ");
-        }
+        while (Text.ch == 'u')
+            Text.NextCh();
 
+        String checkString = "\\u";
+
+        for (int i = 0; i < 4; i++) {
+            checkString += (char) Text.ch;
+            if (Objects.equals(checkString, "\\u000a") || Objects.equals(checkString, "\\u000d") || Objects.equals(checkString, "\\u000A") || Objects.equals(checkString, "\\u000D")) {
+                Location.LexPos = Location.Pos;
+                Error.Message("LineTerminator");
+            } else if (Objects.equals(checkString, "\\u005c") || Objects.equals(checkString, "\\u005C")) {
+                Text.NextCh();
+                slashCombinationsWithoutUnicode();
+            } else if (isHexNumber())
+                Text.NextCh();
+            else {
+                Location.LexPos = Location.Pos + 1;
+                Error.Message("Недопустимый символ");
+            }
+        }
         Lex = lexUnicode;
     }
 
+    private static void slashCombinationsWithoutUnicode() {
+        if (isOctNumber())
+            numberOfLatin();
+        else if (Text.ch == 'b') {
+            Text.NextCh();
+            Lex = lexBS;
+        } else if (Text.ch == 't') {
+            Text.NextCh();
+            Lex = lexHT;
+        } else if (Text.ch == 'n') {
+            Text.NextCh();
+            Lex = lexLF;
+        } else if (Text.ch == 'f') {
+            Text.NextCh();
+            Lex = lexFF;
+        } else if (Text.ch == 'r') {
+            Text.NextCh();
+            Lex = lexCR;
+        } else if (Text.ch == '\"') {
+            Text.NextCh();
+            Lex = lexDoubleQuote;
+        } else if (Text.ch == '\'') {
+            Text.NextCh();
+            Lex = lexQuote;
+        } else if (Text.ch == '\\') {
+            Text.NextCh();
+            Lex = lexBackSlash;
+        } else {
+            Location.LexPos = Location.Pos;
+            Error.Message("Недопустимый символ");
+        }
+    }
 
     static void init() {
         EnterKW("abstract", lexAbstract);
@@ -550,6 +842,6 @@ class Scan {
         EnterKW("true", lexTrue);
         EnterKW("false", lexFalse);
 
-        NextLex();
+        nextLex();
     }
 }

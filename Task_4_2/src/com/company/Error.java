@@ -6,9 +6,9 @@ class Error {
 
     static void Message(String Msg) {
         int ELine = Location.Line;
-        while (Text.Ch != Text.chEOL && Text.Ch != Text.chEOT)
+        while (Text.ch != Text.chEOL && Text.ch != Text.chEOT)
             Text.NextCh();
-        if (Text.Ch == Text.chEOT)
+        if (Text.ch == Text.chEOT)
             System.out.println();
         for (int i = 1; i < Location.LexPos; i++)
             System.out.print(' ');
@@ -17,14 +17,14 @@ class Error {
         System.out.println();
         System.out.println("Нажмите ВВОД");
         try {
-            while (System.in.read() != '\n') ;
+            while (System.in.read() != '\n');
         } catch (IOException ignored) {
         }
         System.exit(0);
     }
 
-    static void Expected(String Msg) {
-        Message("Ожидается " + Msg);
+    static void Expected(String message) {
+        Message("Ожидается " + message);
     }
 
     public static void Warning(String Msg) {

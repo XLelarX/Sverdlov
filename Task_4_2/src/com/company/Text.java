@@ -9,25 +9,25 @@ class Text {
     static final char chEOL = '\n';
     static final char chEOT = '\0';
 
-    static boolean Ok = false;
-    static String Message = "Файл не открыт";
-    static int Ch = chEOT;
+    static boolean ok = false;
+    static String message = "Файл не открыт";
+    static int ch = chEOT;
 
     private static InputStream f;
 
     static void NextCh() {
         try {
-            if ((Ch = f.read()) == -1)
-                Ch = chEOT;
-            else if (Ch == '\n') {
+            if ((ch = f.read()) == -1)
+                ch = chEOT;
+            else if (ch == '\n') {
                 System.out.println();
                 Location.Line++;
                 Location.Pos = 0;
-                Ch = chEOL;
-            } else if (Ch == '\r')
+                ch = chEOL;
+            } else if (ch == '\r')
                 NextCh();
-            else if (Ch != '\t') {
-                System.out.write(Ch);
+            else if (ch != '\t') {
+                System.out.write(ch);
                 Location.Pos++;
             } else
                 do
@@ -38,20 +38,20 @@ class Text {
     }
 
     static void Reset() {
-        if (Location.Path == null) {
+        if (Location.path == null) {
             System.out.println("Формат вызова : ");
             System.exit(1);
         } else
             try {
-                f = new FileInputStream(Location.Path);
-                Ok = true;
-                Message = "Ok";
+                f = new FileInputStream(Location.path);
+                ok = true;
+                message = "ok";
                 Location.Pos = 0;
                 Location.Line = 0;
                 NextCh();
             } catch (IOException e) {
-                Ok = false;
-                Message = "Входной файл не найден";
+                ok = false;
+                message = "Входной файл не найден";
             }
     }
 
