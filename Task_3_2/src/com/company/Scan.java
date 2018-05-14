@@ -93,34 +93,38 @@ class Scan {
                 binNumbers();
             else if (isLong())
                 Text.NextCh();
-            else if (Text.ch == '.') {
-                numberDouble(new BigDecimal(0));
-                if (isFloat()) {
-                    Text.NextCh();
-                }
-            } else if (isFloat() || isLong() || isDouble()) {
-                Text.NextCh();
-            } else if (isE()) {
-                BigDecimal nom = E(new BigDecimal(0), new BigDecimal(0), 309, 0);
-                if (isFloat() || isDouble())
-                    Text.NextCh();
+            else if (isReal()) {
+                //double max =
             }
+
         } else decNumbers();
 
+//            else if (Text.ch == '.') {
+//                Text.NextCh();
+//                numberDouble(0);
+//            } else elevateE();
+
+//            else if (Text.ch == '.') {
+//                Text.NextCh();
+//                numberDouble(numInt);
+//                else elevateE();
     }
 
     private static void decNumbers() {
-        BigDecimal bigDec = BigDecimal.valueOf(0);
-        BigDecimal bigMax = new BigDecimal(Double.MAX_VALUE);
-
+        double max = Long.MAX_VALUE;
+        double sum = 0;
+        String str = "0";
         do {
-
             int d = Text.ch - '0';
 
-            bigDec = bigDec.movePointRight(1);
-            bigDec = bigDec.add(BigDecimal.valueOf(d));
+            sum = Double.parseDouble(new BigDecimal(str).toString());
 
-            if (bigDec.compareTo(bigMax) > 0) {
+            if ((max - d) / 10 >= sum) {
+                str += d;
+                System.out.print("+" + str);
+                System.out.println("-" + sum);
+            } else {
+                //System.out.println(max + " " + sum);
                 Location.LexPos = Location.Pos;
                 Error.Message("Слишком большое число");
             }
@@ -128,153 +132,30 @@ class Scan {
             Text.NextCh();
             while (Text.ch == '_') {
                 Text.NextCh();
-                if (isLong() || Text.ch == '.') {
+                if (isLong()) {
                     Location.LexPos = Location.Pos;
                     Error.Message("Недопустимый символ");
                 }
             }
 
-            if (!Character.isDigit(Text.ch)) {
-                if (Text.ch == '.') {
-                    numberDouble(bigDec);
-                } else if (isE()) {
-                    // System.out.println(bigDec);
-                    BigDecimal nom = E(bigDec, bigMax, 309, bigDec.toString().length());
-                    if (isFloat() || isDouble())
-                        Text.NextCh();
-                }
-            } else if (!isLong()) {
-                downToInteger(bigDec);
-            } else if (isLong()) {
-                downToLong(bigDec);
+            if (!isLong() && !Character.isDigit(Text.ch)) {
+                max = downToInteger(sum);
             }
+//            else if (isLong()) {
+//                maxL = downToLongForDec(str);
+//            }
+//            else if (isReal()) {
+//                max = Double.MAX_VALUE;
+//
+//            }
         } while (Character.isDigit((char) Text.ch));
 
-        if (isFloat() || isLong()) {
+        if (isLong())
             Text.NextCh();
-        }
-
     }
 
-    private static void numberDouble(BigDecimal nom) {
-        BigDecimal bigMax = new BigDecimal(Double.MAX_VALUE);
-        int indexMax = bigMax.toString().length();
-        int indexE = nom.toString().length();
-        int endOfFloat = 0;
-
-        Text.NextCh();
-        if (Character.isDigit((char) Text.ch) || isFloat() || isDouble() || isE()) {
-
-            do {
-                if (Character.isDigit((char) Text.ch))
-                    endOfFloat += Text.ch - '0';
-
-
-                if (nom.equals(bigMax) && 0 != Text.ch - '0' && !isDouble() && !isLong()) {
-                    Location.LexPos = Location.Pos;
-                    Error.Message("Слишком большое число");
-                }
-
-                if (!isFloat() && !isDouble() && !isE()) {
-                    Text.NextCh();
-
-                }
-
-                while (Text.ch == '_') {
-                    Text.NextCh();
-                    if (isFloat() || isDouble()) {
-                        Location.LexPos = Location.Pos;
-                        Error.Message("Недопустимый символ");
-                    }
-                }
-
-
-                if (isE()) {
-                    nom = E(nom, bigMax, indexMax, indexE);
-                }
-
-
-                if (isFloat()) {
-                    downToFloat(endOfFloat, nom);
-                } else if (isDouble())
-                    Text.NextCh();
-
-
-            } while (Character.isDigit((char) Text.ch));
-
-        }
-        //System.out.println(indexE);
-
-
-    }
-
-    private static BigDecimal E(BigDecimal nom, BigDecimal bigMax, int indexMax, int indexE) {
-        Text.NextCh();
-        if (!Character.isDigit((char) Text.ch)) {
-            Location.LexPos = Location.Pos + 1;
-            Error.Message("Недопустимый символ");
-        }
-        int index = 0;
-        while (Character.isDigit((char) Text.ch)) {
-            int d = Text.ch - '0';
-            if ((indexMax - indexE - d) / 10 >= index) {
-                index = 10 * index + d;
-            } else {
-                Location.LexPos = Location.Pos;
-                Error.Message("Слишком большое число");
-            }
-            nom = new BigDecimal(nom.doubleValue() * Math.pow(10, index));
-            if (nom.compareTo(bigMax) > 0) {
-                Location.LexPos = Location.Pos;
-                Error.Message("Слишком большое число");
-            }
-            Text.NextCh();
-        }
-        return nom;
-    }
-
-    private static boolean isE() {
-        return Text.ch == 'e' || Text.ch == 'E';
-    }
-
-    private static boolean isFloat() {
-        return Text.ch == 'F' || Text.ch == 'f';
-    }
-
-    private static boolean isDouble() {
-        return Text.ch == 'D' || Text.ch == 'd';
-    }
-
-    private static void downToFloat(int endOfFloat, BigDecimal sum) {
-        BigDecimal max = new BigDecimal(Float.MAX_VALUE);
-
-        if (sum.compareTo(max) > 0) {
-            Location.LexPos = Location.Pos - 1;
-            Error.Message("Слишком большое число");
-        }
-
-        if (sum.compareTo(max) == 0 && endOfFloat != 0) {
-            Location.LexPos = Location.Pos - 1;
-            Error.Message("Слишком большое число");
-        }
-    }
-
-    private static void downToLong(BigDecimal sum) {
-        BigDecimal max = new BigDecimal(Long.MAX_VALUE);
-
-        if (sum.compareTo(max) > 0) {
-            Location.LexPos = Location.Pos - 1;
-            Error.Message("Слишком большое число");
-        }
-    }
-
-    private static void downToInteger(BigDecimal sum) {
-        BigDecimal max = new BigDecimal(Integer.MAX_VALUE);
-
-        if (sum.compareTo(max) > 0) {
-            Location.LexPos = Location.Pos - 1;
-            Error.Message("Слишком большое число");
-        }
+    private static boolean isReal() {
+        return Text.ch == '.';
     }
 
     private static void binNumbers() {
@@ -319,7 +200,7 @@ class Scan {
             }
 
             if (!isLong() && !isBinNumber()) {
-                max = upToLong(sum);
+                max = downToInteger(sum);
             }
         } while (isBinNumber());
 
@@ -366,7 +247,7 @@ class Scan {
             }
 
             if (!isLong() && !isOctNumber()) {
-                max = upToLong(sum);
+                max = downToInteger(sum);
             }
 
         } while (isOctNumber());
@@ -416,14 +297,14 @@ class Scan {
             }
 
             if (!isLong() && !isHexNumber()) {
-                max = upToLong(sum);
+                max = downToInteger(sum);
             }
         } while (isHexNumber());
         if (isLong())
             Text.NextCh();
     }
 
-    private static long upToLong(long sum) {
+    private static long downToInteger(double sum) {
         long max;
         max = Integer.MAX_VALUE;
 
@@ -434,10 +315,27 @@ class Scan {
         return max;
     }
 
+
     private static boolean isLong() {
         return Text.ch == 'l' || Text.ch == 'L';
     }
 
+    private static void numberDouble(int numInt) {
+        double numDouble;
+        if (Character.isDigit(Text.ch)) {
+            numDouble = numInt;
+            int i = 1;
+            do {
+                double d2 = Text.ch - '0';
+                numDouble = numDouble + d2 / Math.pow(10, i);
+                i++;
+                Text.NextCh();
+                if (Text.ch == 'F' || Text.ch == 'f')
+                    Text.NextCh();
+                else elevateE();
+            } while (Character.isDigit((char) Text.ch) || Text.ch == '_');
+        }
+    }
 
     private static void elevateE() {
         if (Text.ch == 'E' || Text.ch == 'e') {
@@ -579,12 +477,9 @@ class Scan {
                             Text.NextCh();
                             Lex = lexTripleDot;
                         } else Error.Expected("Недопустимый символ");
-                    } else if (Character.isDigit(Text.ch)) {
-                        numberDouble(new BigDecimal(0));
-                        if (isFloat()) {
-                            Text.NextCh();
-                        }
-                    } else
+                    } else if (Character.isDigit(Text.ch))
+                        numberDouble(0);
+                    else
                         Lex = lexDot;
                     break;
 

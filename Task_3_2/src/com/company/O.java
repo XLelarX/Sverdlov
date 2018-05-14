@@ -15,11 +15,7 @@ public class O {
     }
 
     public static void main(String[] args) {
-
-        System.out.println(new BigDecimal(Double.MAX_VALUE));
-        System.out.println(new BigDecimal(Float.MAX_VALUE));
-        System.out.println(1e308);
-        System.out.println(Integer.MAX_VALUE + "     " + Long.MAX_VALUE);
+        System.out.println(0x7fffffff + ":" + 0x7fffffffffffffffL);
         System.out.println("Компилятор языка Java");
         if (args.length == 0)
             Location.path = null;
