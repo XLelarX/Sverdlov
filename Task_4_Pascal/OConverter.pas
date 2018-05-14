@@ -1,6 +1,5 @@
-{Krylov Michael(MKN-21)}
-unit OScan;
-{ Сканер }
+unit OConverter;
+{ Конвертор }
 
 interface
 
@@ -25,9 +24,8 @@ var
    Num: integer; {Значение числовых литералов}
    LexPos: integer;{Позиция начала лексемы     }
 
-procedure InitScan;
+procedure InitConvertor;
 procedure NextLex;
-//procedure CountOfLex;
 
 {=======================================================}
 implementation
@@ -54,6 +52,8 @@ var
       Lex: tLex;
       Count: integer = 0;
    end;
+   
+   f: text;
 
 
 procedure InitLT;
@@ -177,7 +177,6 @@ begin
          begin
             NextCh;
             Lex := lexSemi;
-            Inc(LexTable[30].Count);
          end;
       ':':
          begin
@@ -185,36 +184,30 @@ begin
             if Ch = '=' then begin
                NextCh;
                Lex := lexAss;
-               Inc(LexTable[31].Count);
             end
             else begin
                Lex := lexColon;
-               Inc(LexTable[29].Count);
             end;
          end;
       '.': 
          begin
             NextCh;
             Lex := lexDot;
-            Inc(LexTable[27].Count);
          end;
       ',': 
          begin
             NextCh;
             Lex := lexComma;
-            Inc(LexTable[28].Count);
          end;
       '=': 
          begin
             NextCh;
             Lex := lexEQ;
-            Inc(LexTable[21].Count);
          end;
       '#': 
          begin
             NextCh;
             Lex := lexNE;
-            Inc(LexTable[22].Count);
          end;
       '<': 
          begin
@@ -222,11 +215,10 @@ begin
             if Ch = '=' then begin
                NextCh;
                Lex := lexLE;
-               Inc(LexTable[24].Count);
+               
             end
             else begin
                Lex := lexLT;
-               Inc(LexTable[23].Count);
             end;   
          end;
       '>': 
@@ -235,11 +227,10 @@ begin
             if Ch = '=' then begin
                NextCh;
                Lex := lexGE;
-               Inc(LexTable[26].Count);
             end
             else begin
+               write(f, '>');
                Lex := lexGT;
-               Inc(LexTable[25].Count);
             end;
          end;
       '(': 
@@ -251,45 +242,46 @@ begin
             end
             else begin
                Lex := lexLpar;
-               Inc(LexTable[32].Count);
             end;   
          end;
       ')': 
          begin
             NextCh;
             Lex := lexRpar;
-            Inc(LexTable[33].Count);
          end;
       '+': 
          begin
             NextCh;
             Lex := lexPlus;
-            Inc(LexTable[19].Count);
          end;
       '-': 
          begin
             NextCh;
             Lex := lexMinus;
-            Inc(LexTable[20].Count);
          end;
       '*': 
          begin
             NextCh;
             Lex := lexMult;
-            Inc(LexTable[16].Count);
          end;
       chEOT: 
-         begin
+         begin       
             Lex := lexEOT;
-            Inc(LexTable[34].Count);
+            close(f);
          end;
    else
       Error('Недопустимый символ');
    end;
 end;
 
-procedure InitScan;
+procedure InitConvertor;
 begin
+   assign(f, 'Res.txt');
+   rewrite(f);
+   Pos := 0;
+   Line := 1;
+   NextCh;
+   
    nkw := 0;
    InitLT;
    EnterKW('ARRAY',     lexNone);
@@ -331,4 +323,3 @@ begin
 end;
 
 end.
-

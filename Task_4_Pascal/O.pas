@@ -1,7 +1,7 @@
 program O;
 
 uses
-  OText, OScan, OPars, OVM, OGen;
+  OText, OScan, OPars, OVM, OGen, OConverter, OParsForConverter;
 
 procedure Init;
 begin
@@ -20,7 +20,10 @@ begin
    Init;    {Инициализация}
    Compile; {Компиляция}
    Run;     {Выполнение}
+   InitConvertor;
+   Compile2;
    Done;    {Завершение}
+   
 end.
 
 

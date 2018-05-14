@@ -29,12 +29,9 @@ const
 
 var
    f : text;
-//   outF : text;
 
 procedure ResetText;
 begin
-//   Assign(outF, 'Out.txt');
-//   Rewrite(outF);
    Assign(f, 'TEST.txt');
    Reset(f);
    Pos := 0;

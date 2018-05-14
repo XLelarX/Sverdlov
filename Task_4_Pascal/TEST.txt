@@ -3,7 +3,7 @@ MODULE Euqlid;
 IMPORT In, Out;
 
 VAR
-   X, Y, Z, H: INTEGER;
+   X, Y: INTEGER;
 BEGIN
    X := Y;
    X := Y;
