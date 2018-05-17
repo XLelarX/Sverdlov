@@ -101,7 +101,7 @@ class Scan {
             } else if (isFloat() || isLong() || isDouble()) {
                 Text.NextCh();
             } else if (isE()) {
-                BigDecimal nom = E(new BigDecimal(0), new BigDecimal(0), 309, 0);
+                E(new BigDecimal(0), new BigDecimal(0), 309, 0);
                 if (isFloat() || isDouble())
                     Text.NextCh();
             }
@@ -138,8 +138,7 @@ class Scan {
                 if (Text.ch == '.') {
                     numberDouble(bigDec);
                 } else if (isE()) {
-                    // System.out.println(bigDec);
-                    BigDecimal nom = E(bigDec, bigMax, 309, bigDec.toString().length());
+                    E(bigDec, bigMax, 309, bigDec.toString().length());
                     if (isFloat() || isDouble())
                         Text.NextCh();
                 }
@@ -190,7 +189,7 @@ class Scan {
 
 
                 if (isE()) {
-                    nom = E(nom, bigMax, indexMax, indexE);
+                    E(nom, bigMax, indexMax, indexE);
                 }
 
 
@@ -208,29 +207,56 @@ class Scan {
 
     }
 
-    private static BigDecimal E(BigDecimal nom, BigDecimal bigMax, int indexMax, int indexE) {
+    private static void E(BigDecimal nom, BigDecimal bigMax, int indexMax, int indexE) {
+        char symbol = '+';
+
+        if (nom.equals(new BigDecimal(0)))
+            indexE = 0;
+
         Text.NextCh();
+
+        if (Text.ch == '-' || Text.ch == '+') {
+            if (Text.ch == '-')
+                symbol = '-';
+            Text.NextCh();
+        }
+
+
         if (!Character.isDigit((char) Text.ch)) {
             Location.LexPos = Location.Pos + 1;
             Error.Message("Недопустимый символ");
         }
+
         int index = 0;
+
         while (Character.isDigit((char) Text.ch)) {
             int d = Text.ch - '0';
-            if ((indexMax - indexE - d) / 10 >= index) {
-                index = 10 * index + d;
-            } else {
-                Location.LexPos = Location.Pos;
-                Error.Message("Слишком большое число");
+            if (symbol == '+')
+                if ((indexMax - indexE - d) / 10 >= index)
+                    index = 10 * index + d;
+                else {
+                    Location.LexPos = Location.Pos;
+                    Error.Message("Слишком большое число");
+                }
+
+            else {
+                indexMax = 324;
+                if ((indexMax - indexE - d) / 10 >= index) {
+                    index = 10 * index + d;
+                    //System.out.println((char) Text.ch);
+                } else {
+                    Location.LexPos = Location.Pos;
+                    Error.Message("Слишком большое число");
+                }
+
+                if (nom.compareTo(bigMax) > 0) {
+                    Location.LexPos = Location.Pos;
+                    Error.Message("Слишком большое число");
+                }
             }
-            nom = new BigDecimal(nom.doubleValue() * Math.pow(10, index));
-            if (nom.compareTo(bigMax) > 0) {
-                Location.LexPos = Location.Pos;
-                Error.Message("Слишком большое число");
-            }
+
             Text.NextCh();
         }
-        return nom;
     }
 
     private static boolean isE() {
@@ -438,23 +464,6 @@ class Scan {
         return Text.ch == 'l' || Text.ch == 'L';
     }
 
-
-    private static void elevateE() {
-        if (Text.ch == 'E' || Text.ch == 'e') {
-            Text.NextCh();
-            if (Text.ch == '-')
-                Text.NextCh();
-            if (Character.isDigit(Text.ch)) {
-                int num = 0;
-                do {
-                    int d3 = Text.ch - '0';
-                    num = 10 * num + d3;
-                    Text.NextCh();
-                } while (Character.isDigit((char) Text.ch) || Text.ch == '_');
-            } else Error.Message("Недопустимый символ");
-        }
-    }
-
     private static void Comment() {
         Text.NextCh();
         do {
@@ -525,10 +534,21 @@ class Scan {
     }
 
     static void nextLex() {
+        if (Text.ch == '\\') {
+            Text.NextCh();
+            if (Text.ch == 'u') {
+                Text.ch = numberOfUnicodeForLex();
+//                System.out.println((char)Text.ch);
+                nextSymbol();
+            } else Lex = lexBackSlash;
+        } else nextSymbol();
+    }
+
+    private static void nextSymbol() {
         while (Text.ch == Text.chSpace || Text.ch == Text.chEOL || Text.ch == Text.chTab)
             Text.NextCh();
-        Location.LexPos = Location.Pos;
 
+        Location.LexPos = Location.Pos;
         if (Character.isLetter((char) Text.ch) || Text.ch == '_' || Text.ch == '$')
             Ident();
 
@@ -584,6 +604,12 @@ class Scan {
                         if (isFloat()) {
                             Text.NextCh();
                         }
+                    } else if (isFloat() || isDouble()) {
+                        Text.NextCh();
+                    } else if (isE()) {
+                        E(new BigDecimal(0), new BigDecimal(0), 309, 0);
+                        if (isFloat() || isDouble())
+                            Text.NextCh();
                     } else
                         Lex = lexDot;
                     break;
@@ -707,8 +733,11 @@ class Scan {
                     } else if (Text.ch == '/') {
                         lineComment();
                         nextLex();
-                    } else
+                    } else {
+                        System.out.println("FUCK");
+
                         Lex = lexDiv;
+                    }
                     break;
 
                 case '%':
@@ -857,6 +886,32 @@ class Scan {
         return Character.isDigit((char) Text.ch) || (Text.ch >= 'A' && Text.ch <= 'F') || (Text.ch >= 'a' && Text.ch <= 'f');
     }
 
+    private static char numberOfUnicodeForLex() {
+        while (Text.ch == 'u')
+            Text.NextCh();
+
+        String checkString = "";
+
+        for (int i = 0; i < 3; i++) {
+            checkString += (char) Text.ch;
+
+//            if (Objects.equals(checkString, "\\u000a") || Objects.equals(checkString, "\\u000d") || Objects.equals(checkString, "\\u000A") || Objects.equals(checkString, "\\u000D")) {
+//                Location.LexPos = Location.Pos;
+//                Error.Message("LineTerminator");
+//            } else if (Objects.equals(checkString, "\\u005c") || Objects.equals(checkString, "\\u005C")) {
+//                Text.NextCh();
+//                slashCombinationsWithoutUnicode();
+//            } else
+            if (isHexNumber())
+                Text.NextCh();
+            else {
+                Location.LexPos = Location.Pos + 1;
+                Error.Message("Недопустимый символ");
+            }
+        }
+        return (char) Integer.parseInt(checkString, 16);
+    }
+
     private static void numberOfUnicode() {
         while (Text.ch == 'u')
             Text.NextCh();
@@ -915,6 +970,8 @@ class Scan {
     }
 
     static void init() {
+        nkw = 0;
+
         EnterKW("abstract", lexAbstract);
         EnterKW("assert", lexAssert);
         EnterKW("boolean", lexBoolean);
@@ -971,4 +1028,11 @@ class Scan {
 
         nextLex();
     }
+//
+//    public void nextSymbol(){
+//        if(ch == 'u') {
+//
+//        }
+//        else Lex = lexBackSlash;
+//    }
 }

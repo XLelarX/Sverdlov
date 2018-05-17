@@ -1,5 +1,6 @@
 package com.company;
 
+import java.io.File;
 import java.math.BigDecimal;
 
 public class O {
@@ -16,17 +17,27 @@ public class O {
 
     public static void main(String[] args) {
 
-        System.out.println(new BigDecimal(Double.MAX_VALUE));
-        System.out.println(new BigDecimal(Float.MAX_VALUE));
-        System.out.println(1e308);
         System.out.println(Integer.MAX_VALUE + "     " + Long.MAX_VALUE);
         System.out.println("Компилятор языка Java");
-        if (args.length == 0)
-            Location.path = null;
-        else
-            Location.path = args[0];
-        O.Init();
-        Pars.Compile();
-        O.Done();
+        showoutFiles(convertHumanReadableFormatToRegex(args[0]));
+
+    }
+
+    private static String convertHumanReadableFormatToRegex(String arg) {
+        return arg.replaceAll("\\.", "\\*")
+                .replaceAll("^\\*", "\\.");
+    }
+
+    private static void showoutFiles(String fileMask) {
+        File dir = new File(".");
+        File[] files = dir.listFiles((dir1, name) -> name.matches(fileMask));
+        assert files != null;
+        for (File file : files) {
+            System.out.println(file.getName());
+            Location.path = file.getName();
+            O.Init();
+            Pars.Compile();
+            O.Done();
+        }
     }
 }
