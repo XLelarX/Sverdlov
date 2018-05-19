@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 class Scan {
-    private static int NAME_LENGTH = 31;//ToDo может ли больше?
+    private static int NAME_LENGTH = 31;
 
     private final static int lexName = 0, lexAbstract = 1, lexNum = 2, lexAssert = 3,
             lexBoolean = 4, lexBreak = 5, lexByte = 6, lexCase = 7,
@@ -559,15 +559,15 @@ class Scan {
         return (char) Integer.parseInt(checkString, 16);
     }
 
-//    static void nextLex() {
-//        if (Text.ch == '\\') {
-//            Text.NextCh();
-//            if (Text.ch == 'u') {
-//                Text.ch = numberOfUnicodeForLex();
-//                nextSymbol();
-//            } else Lex = lexBackSlash;
-//        } else nextSymbol();
-//    }
+    static void nextLex() {
+        if (Text.ch == '\\') {
+            Text.NextCh();
+            if (Text.ch == 'u') {
+                Text.ch = numberOfUnicodeForLex();
+                nextSymbol();
+            } else Lex = lexBackSlash;
+        } else nextSymbol();
+    }
 
 //    private static boolean nextUnicode() {
 //        if (Text.ch == '\\') {
@@ -586,7 +586,7 @@ class Scan {
 //        return false;
 //    }
 
-    static void nextLex() {
+    private static void nextSymbol() {
         while (Text.ch == Text.chSpace || Text.ch == Text.chEOL || Text.ch == Text.chTab)
             Text.NextCh();
 
@@ -767,6 +767,12 @@ class Scan {
 
                 case '/':
                     Text.NextCh();
+//                    if (Text.ch == '\\')
+//                        if (!nextUnicode()) {
+//                            break;
+//                        }
+
+
                     if (Text.ch == '=') {
                         Text.NextCh();
                         Lex = lexDivWithAss;
@@ -851,6 +857,10 @@ class Scan {
 
                 case Text.chEOT:
                     Lex = lexEOT;
+                    break;
+
+                case '\\':
+                    nextLex();
                     break;
 
                 default:

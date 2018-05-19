@@ -17,14 +17,10 @@ public class O {
     public static void main(String[] args) {
         System.out.println(Integer.MAX_VALUE + "     " + Long.MAX_VALUE);
         System.out.println("Компилятор языка Java");
-        showoutFiles(convertHumanReadableFormatToRegex(args[0]));
+        showoutFiles(convertHuman(args[0]));
 
     }
 
-    private static String convertHumanReadableFormatToRegex(String arg) {
-        return arg.replaceAll("\\.", "\\*")
-                .replaceAll("^\\*", "\\.");
-    }
 
     private static void showoutFiles(String fileMask) {
         File dir = new File(".");

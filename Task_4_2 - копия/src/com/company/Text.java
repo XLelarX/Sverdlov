@@ -20,63 +20,64 @@ class Text {
             if ((ch = f.read()) == -1)
                 ch = chEOT;
             else if (ch == '\\') {
-                ch = nextUnicode();
-                System.out.print((char) ch);
-                Location.Pos++;
+                nextUnicode();
+//                System.out.write(ch);
             } else if (ch == '\n') {
-                System.out.println();
+//                System.out.println();
                 Location.Line++;
                 Location.Pos = 0;
                 ch = chEOL;
             } else if (ch == '\r')
                 NextCh();
             else if (ch != '\t') {
-                System.out.write(ch);
+//                System.out.write(ch);
                 Location.Pos++;
             } else
                 do {
                     System.out.println(' ');
-                } while (++Location.Pos % TAB_SIZE != 0);
+                }while (++Location.Pos % TAB_SIZE != 0);
         } catch (IOException ignored) {
         }
     }
 
-    private static char nextUnicode() throws IOException {
-
-        char chbuf = (char) f.read();
-
-        if (chbuf == 'u') {
-            chbuf = numberOfUnicodeForLex();
-        } else {
-            Location.LexPos = Location.Pos + 1;
-            Error.Message("Нет такого символа : \\ ");
+    private static boolean nextUnicode() {
+        if (ch == '\\') {
+            Text.NextCh();
+            if (ch == 'u') {
+                ch = numberOfUnicodeForLex();
+                return true;
+            } else {
+//                System.out.println(Location.LexPos + ":" + Location.Pos);
+                Location.Pos--;
+//                System.out.println(Location.Pos);
+                //Error.Message("Недопустимый символ");
+                return false;
+            }
         }
-
-        return chbuf;
+        return false;
     }
 
-    private static char numberOfUnicodeForLex() throws IOException {
-        char chbuf = (char) f.read();
-
-        while (ch == 'u')
-            chbuf = (char) f.read();
+    private static char numberOfUnicodeForLex() {
+        while (Text.ch == 'u')
+            Text.NextCh();
 
         String checkString = "";
 
         for (int i = 0; i <= 3; i++) {
-            checkString += (char) chbuf;
-            if (isHexNumber(chbuf) && i != 3) {
-                chbuf = (char) f.read();
-            } else if (!isHexNumber(chbuf)) {
-                Location.LexPos = Location.Pos;
-                Error.Message("Недопустимый символ : " + chbuf);
+            checkString += (char) Text.ch;
+            if (isHexNumber() && i != 3) {
+                Text.NextCh();
+            } else if (i != 3) {
+                Location.LexPos = Location.Pos + 1;
+                Error.Message("Недопустимый символ");
             }
         }
+
         return (char) Integer.parseInt(checkString, 16);
     }
 
-    private static boolean isHexNumber(char charbuf) {
-        return Character.isDigit(charbuf) || (charbuf >= 'A' && charbuf <= 'F') || (charbuf >= 'a' && charbuf <= 'f');
+    private static boolean isHexNumber() {
+        return Character.isDigit((char) Text.ch) || (ch >= 'A' && ch <= 'F') || (ch >= 'a' && ch <= 'f');
     }
 
     static void Reset() {

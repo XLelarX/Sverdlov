@@ -15,6 +15,7 @@ public class O {
     }
 
     public static void main(String[] args) {
+        System.out.println('\u002c');
         System.out.println(Integer.MAX_VALUE + "     " + Long.MAX_VALUE);
         System.out.println("Компилятор языка Java");
         showoutFiles(convertHumanReadableFormatToRegex(args[0]));

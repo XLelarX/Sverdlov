@@ -11,7 +11,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Task_4_2$O.coverage" NAME="O Coverage Results" MODIFIED="1526732967415" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="true">
+    <SUITE FILE_PATH="coverage/Task_4_2$O.coverage" NAME="O Coverage Results" MODIFIED="1526333283288" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.company.*</FILTER>
     </SUITE>
   </component>
@@ -20,23 +20,26 @@
       <file leaf-file-name="O.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/O.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="23" column="26" lean-forward="false" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
+            <state relative-caret-position="210">
+              <caret line="17" column="33" lean-forward="true" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
               <folding>
                 <element signature="method#Init#0;class#O#0" expanded="false" />
+                <element signature="method#convertHumanReadableFormatToRegex#0;class#O#0" expanded="false" />
+                <element signature="method#showoutFiles#0;class#O#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Scan.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Scan.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/Scan.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="14" column="72" lean-forward="true" selection-start-line="14" selection-start-column="72" selection-end-line="14" selection-end-column="72" />
+            <state relative-caret-position="-36">
+              <caret line="996" column="24" lean-forward="true" selection-start-line="996" selection-start-column="24" selection-end-line="996" selection-end-column="24" />
               <folding>
                 <element signature="method#EnterKW#0;class#Scan#0" expanded="false" />
                 <element signature="method#TestKW#0;class#Scan#0" expanded="false" />
+                <element signature="method#Ident#0;class#Scan#0" expanded="false" />
                 <element signature="method#Number#0;class#Scan#0" expanded="false" />
                 <element signature="method#decNumbers#0;class#Scan#0" expanded="false" />
                 <element signature="method#numberDouble#0;class#Scan#0" expanded="false" />
@@ -52,7 +55,8 @@
                 <element signature="method#lineComment#0;class#Scan#0" expanded="false" />
                 <element signature="method#string#0;class#Scan#0" expanded="false" />
                 <element signature="method#character#0;class#Scan#0" expanded="false" />
-                <element signature="e#16444#16629#0" expanded="false" />
+                <element signature="e#16421#16606#0" expanded="false" />
+                <element signature="method#nextSymbol#0;class#Scan#0" expanded="false" />
                 <element signature="method#numberOfLatin#0;class#Scan#0" expanded="false" />
                 <element signature="method#numberOfUnicode#0;class#Scan#0" expanded="false" />
                 <element signature="method#slashCombinationsWithoutUnicode#0;class#Scan#0" expanded="false" />
@@ -61,14 +65,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Text.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Text.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/company/Text.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="15" column="33" lean-forward="true" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
-              <folding>
-                <element signature="method#Reset#0;class#Text#0" expanded="false" />
-              </folding>
+            <state relative-caret-position="237">
+              <caret line="21" column="34" lean-forward="true" selection-start-line="21" selection-start-column="34" selection-end-line="21" selection-end-column="34" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -77,7 +79,17 @@
         <entry file="file://$PROJECT_DIR$/TEST.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="13" lean-forward="true" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
+              <caret line="0" column="11" lean-forward="false" selection-start-line="0" selection-start-column="11" selection-end-line="0" selection-end-column="13" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TEST2.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/TEST2.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="6" lean-forward="true" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -99,7 +111,6 @@
       <find>E()</find>
       <find>E</find>
       <find>comm</find>
-      <find>\</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -115,19 +126,18 @@
         <option value="$PROJECT_DIR$/src/com/company/Pars.java" />
         <option value="$PROJECT_DIR$/src/com/company/Error.java" />
         <option value="$PROJECT_DIR$/TEST.txt" />
-        <option value="$USER_HOME$/Desktop/Task_4_2/src/com/company/Scan.java" />
-        <option value="$PROJECT_DIR$/src/com/company/Text.java" />
         <option value="$PROJECT_DIR$/src/com/company/O.java" />
-        <option value="$PROJECT_DIR$/TEST2.txt" />
-        <option value="$PROJECT_DIR$/O.java" />
         <option value="$PROJECT_DIR$/src/com/company/Scan.java" />
+        <option value="$PROJECT_DIR$/TEST2.txt" />
+        <option value="$PROJECT_DIR$/src/com/company/Text.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="960" />
+    <option name="y" value="62" />
     <option name="width" value="960" />
-    <option name="height" value="1032" />
+    <option name="height" value="970" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -263,35 +273,34 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="960" y="0" width="960" height="1032" extended-state="0" />
+    <frame x="960" y="62" width="960" height="970" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32988507" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32988507" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35519803" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32918552" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32988507" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -300,11 +309,34 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="43" />
+      <option name="time" value="37" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/com/company/O.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="17" column="12" lean-forward="false" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_162/src.zip!/java/math/BigInteger.java" />
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_162/src.zip!/java/lang/Double.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/company/Text.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="16" lean-forward="false" selection-start-line="17" selection-start-column="16" selection-end-line="17" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/Pars.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/TEST.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -319,6 +351,7 @@
           <folding>
             <element signature="method#EnterKW#0;class#Scan#0" expanded="false" />
             <element signature="method#TestKW#0;class#Scan#0" expanded="false" />
+            <element signature="method#Ident#0;class#Scan#0" expanded="false" />
             <element signature="method#Number#0;class#Scan#0" expanded="false" />
             <element signature="method#decNumbers#0;class#Scan#0" expanded="false" />
             <element signature="method#numberDouble#0;class#Scan#0" expanded="false" />
@@ -334,7 +367,8 @@
             <element signature="method#lineComment#0;class#Scan#0" expanded="false" />
             <element signature="method#string#0;class#Scan#0" expanded="false" />
             <element signature="method#character#0;class#Scan#0" expanded="false" />
-            <element signature="e#16444#16629#0" expanded="false" />
+            <element signature="e#16421#16606#0" expanded="false" />
+            <element signature="method#nextSymbol#0;class#Scan#0" expanded="false" />
             <element signature="method#numberOfLatin#0;class#Scan#0" expanded="false" />
             <element signature="method#numberOfUnicode#0;class#Scan#0" expanded="false" />
             <element signature="method#slashCombinationsWithoutUnicode#0;class#Scan#0" expanded="false" />
@@ -349,6 +383,7 @@
           <folding>
             <element signature="method#EnterKW#0;class#Scan#0" expanded="false" />
             <element signature="method#TestKW#0;class#Scan#0" expanded="false" />
+            <element signature="method#Ident#0;class#Scan#0" expanded="false" />
             <element signature="method#Number#0;class#Scan#0" expanded="false" />
             <element signature="method#decNumbers#0;class#Scan#0" expanded="false" />
             <element signature="method#numberDouble#0;class#Scan#0" expanded="false" />
@@ -364,7 +399,8 @@
             <element signature="method#lineComment#0;class#Scan#0" expanded="false" />
             <element signature="method#string#0;class#Scan#0" expanded="false" />
             <element signature="method#character#0;class#Scan#0" expanded="false" />
-            <element signature="e#16444#16629#0" expanded="false" />
+            <element signature="e#16421#16606#0" expanded="false" />
+            <element signature="method#nextSymbol#0;class#Scan#0" expanded="false" />
             <element signature="method#numberOfLatin#0;class#Scan#0" expanded="false" />
             <element signature="method#numberOfUnicode#0;class#Scan#0" expanded="false" />
             <element signature="method#slashCombinationsWithoutUnicode#0;class#Scan#0" expanded="false" />
@@ -400,6 +436,7 @@
           <folding>
             <element signature="method#EnterKW#0;class#Scan#0" expanded="false" />
             <element signature="method#TestKW#0;class#Scan#0" expanded="false" />
+            <element signature="method#Ident#0;class#Scan#0" expanded="false" />
             <element signature="method#Number#0;class#Scan#0" expanded="false" />
             <element signature="method#decNumbers#0;class#Scan#0" expanded="false" />
             <element signature="method#numberDouble#0;class#Scan#0" expanded="false" />
@@ -415,7 +452,8 @@
             <element signature="method#lineComment#0;class#Scan#0" expanded="false" />
             <element signature="method#string#0;class#Scan#0" expanded="false" />
             <element signature="method#character#0;class#Scan#0" expanded="false" />
-            <element signature="e#16444#16629#0" expanded="false" />
+            <element signature="e#16421#16606#0" expanded="false" />
+            <element signature="method#nextSymbol#0;class#Scan#0" expanded="false" />
             <element signature="method#numberOfLatin#0;class#Scan#0" expanded="false" />
             <element signature="method#numberOfUnicode#0;class#Scan#0" expanded="false" />
             <element signature="method#slashCombinationsWithoutUnicode#0;class#Scan#0" expanded="false" />
@@ -458,6 +496,7 @@
           <folding>
             <element signature="method#EnterKW#0;class#Scan#0" expanded="false" />
             <element signature="method#TestKW#0;class#Scan#0" expanded="false" />
+            <element signature="method#Ident#0;class#Scan#0" expanded="false" />
             <element signature="method#Number#0;class#Scan#0" expanded="false" />
             <element signature="method#decNumbers#0;class#Scan#0" expanded="false" />
             <element signature="method#numberDouble#0;class#Scan#0" expanded="false" />
@@ -473,7 +512,8 @@
             <element signature="method#lineComment#0;class#Scan#0" expanded="false" />
             <element signature="method#string#0;class#Scan#0" expanded="false" />
             <element signature="method#character#0;class#Scan#0" expanded="false" />
-            <element signature="e#16444#16629#0" expanded="false" />
+            <element signature="e#16421#16606#0" expanded="false" />
+            <element signature="method#nextSymbol#0;class#Scan#0" expanded="false" />
             <element signature="method#numberOfLatin#0;class#Scan#0" expanded="false" />
             <element signature="method#numberOfUnicode#0;class#Scan#0" expanded="false" />
             <element signature="method#slashCombinationsWithoutUnicode#0;class#Scan#0" expanded="false" />
@@ -502,6 +542,7 @@
           <folding>
             <element signature="method#EnterKW#0;class#Scan#0" expanded="false" />
             <element signature="method#TestKW#0;class#Scan#0" expanded="false" />
+            <element signature="method#Ident#0;class#Scan#0" expanded="false" />
             <element signature="method#Number#0;class#Scan#0" expanded="false" />
             <element signature="method#decNumbers#0;class#Scan#0" expanded="false" />
             <element signature="method#numberDouble#0;class#Scan#0" expanded="false" />
@@ -517,7 +558,8 @@
             <element signature="method#lineComment#0;class#Scan#0" expanded="false" />
             <element signature="method#string#0;class#Scan#0" expanded="false" />
             <element signature="method#character#0;class#Scan#0" expanded="false" />
-            <element signature="e#16444#16629#0" expanded="false" />
+            <element signature="e#16421#16606#0" expanded="false" />
+            <element signature="method#nextSymbol#0;class#Scan#0" expanded="false" />
             <element signature="method#numberOfLatin#0;class#Scan#0" expanded="false" />
             <element signature="method#numberOfUnicode#0;class#Scan#0" expanded="false" />
             <element signature="method#slashCombinationsWithoutUnicode#0;class#Scan#0" expanded="false" />
@@ -569,6 +611,13 @@
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_162/src.zip!/java/lang/Integer.java" />
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_162/src.zip!/java/math/BigDecimal.java" />
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_162/src.zip!/java/lang/Double.java" />
+    <entry file="file://$PROJECT_DIR$/src/com/company/Error.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="15" column="29" lean-forward="true" selection-start-line="15" selection-start-column="29" selection-end-line="15" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
     <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.base/java/lang/Math.java" />
     <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.base/java/lang/Double.java" />
     <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.base/java/math/BigDecimal.java" />
@@ -597,6 +646,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/Pars.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="2" column="6" lean-forward="false" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/O.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="17" column="33" lean-forward="true" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
+          <folding>
+            <element signature="method#Init#0;class#O#0" expanded="false" />
+            <element signature="method#convertHumanReadableFormatToRegex#0;class#O#0" expanded="false" />
+            <element signature="method#showoutFiles#0;class#O#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/Location.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="42">
@@ -605,19 +674,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.base/java/io/IOException.java">
+    <entry file="file://$PROJECT_DIR$/src/com/company/Scan.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="38" column="6" lean-forward="false" selection-start-line="38" selection-start-column="6" selection-end-line="38" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/Task_4_2/src/com/company/Scan.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="263">
-          <caret line="546" column="38" lean-forward="true" selection-start-line="546" selection-start-column="38" selection-end-line="546" selection-end-column="38" />
+        <state relative-caret-position="-36">
+          <caret line="996" column="24" lean-forward="true" selection-start-line="996" selection-start-column="24" selection-end-line="996" selection-end-column="24" />
           <folding>
+            <element signature="method#EnterKW#0;class#Scan#0" expanded="false" />
             <element signature="method#TestKW#0;class#Scan#0" expanded="false" />
             <element signature="method#Ident#0;class#Scan#0" expanded="false" />
             <element signature="method#Number#0;class#Scan#0" expanded="false" />
@@ -635,38 +697,19 @@
             <element signature="method#lineComment#0;class#Scan#0" expanded="false" />
             <element signature="method#string#0;class#Scan#0" expanded="false" />
             <element signature="method#character#0;class#Scan#0" expanded="false" />
+            <element signature="e#16421#16606#0" expanded="false" />
+            <element signature="method#nextSymbol#0;class#Scan#0" expanded="false" />
+            <element signature="method#numberOfLatin#0;class#Scan#0" expanded="false" />
+            <element signature="method#numberOfUnicode#0;class#Scan#0" expanded="false" />
+            <element signature="method#slashCombinationsWithoutUnicode#0;class#Scan#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/Pars.java">
+    <entry file="file://$PROJECT_DIR$/TEST.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="42">
-          <caret line="2" column="12" lean-forward="true" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.base/java/io/PrintStream.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="444" column="16" lean-forward="false" selection-start-line="444" selection-start-column="16" selection-end-line="444" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/Error.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="17" column="43" lean-forward="true" selection-start-line="17" selection-start-column="43" selection-end-line="17" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-9/lib/src.zip!/java.base/java/io/InputStream.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="64" column="6" lean-forward="true" selection-start-line="64" selection-start-column="6" selection-end-line="64" selection-end-column="6" />
+        <state relative-caret-position="0">
+          <caret line="0" column="11" lean-forward="false" selection-start-line="0" selection-start-column="11" selection-end-line="0" selection-end-column="13" />
           <folding />
         </state>
       </provider>
@@ -674,74 +717,16 @@
     <entry file="file://$PROJECT_DIR$/TEST2.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="12" lean-forward="true" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
+          <caret line="0" column="6" lean-forward="true" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TEST.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="13" lean-forward="true" selection-start-line="0" selection-start-column="13" selection-end-line="0" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/O.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="23" column="26" lean-forward="false" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
-          <folding>
-            <element signature="method#Init#0;class#O#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/Text.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="15" column="33" lean-forward="true" selection-start-line="15" selection-start-column="33" selection-end-line="15" selection-end-column="33" />
-          <folding>
-            <element signature="method#Reset#0;class#Text#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/O.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="22" column="4" lean-forward="false" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
+        <state relative-caret-position="237">
+          <caret line="21" column="34" lean-forward="true" selection-start-line="21" selection-start-column="34" selection-end-line="21" selection-end-column="34" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/Scan.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="14" column="72" lean-forward="true" selection-start-line="14" selection-start-column="72" selection-end-line="14" selection-end-column="72" />
-          <folding>
-            <element signature="method#EnterKW#0;class#Scan#0" expanded="false" />
-            <element signature="method#TestKW#0;class#Scan#0" expanded="false" />
-            <element signature="method#Number#0;class#Scan#0" expanded="false" />
-            <element signature="method#decNumbers#0;class#Scan#0" expanded="false" />
-            <element signature="method#numberDouble#0;class#Scan#0" expanded="false" />
-            <element signature="method#E#0;class#Scan#0" expanded="false" />
-            <element signature="method#downToFloat#0;class#Scan#0" expanded="false" />
-            <element signature="method#downToLong#0;class#Scan#0" expanded="false" />
-            <element signature="method#downToInteger#0;class#Scan#0" expanded="false" />
-            <element signature="method#binNumbers#0;class#Scan#0" expanded="false" />
-            <element signature="method#octNumbers#0;class#Scan#0" expanded="false" />
-            <element signature="method#hexNumbers#0;class#Scan#0" expanded="false" />
-            <element signature="method#upToLong#0;class#Scan#0" expanded="false" />
-            <element signature="method#Comment#0;class#Scan#0" expanded="false" />
-            <element signature="method#lineComment#0;class#Scan#0" expanded="false" />
-            <element signature="method#string#0;class#Scan#0" expanded="false" />
-            <element signature="method#character#0;class#Scan#0" expanded="false" />
-            <element signature="e#16444#16629#0" expanded="false" />
-            <element signature="method#numberOfLatin#0;class#Scan#0" expanded="false" />
-            <element signature="method#numberOfUnicode#0;class#Scan#0" expanded="false" />
-            <element signature="method#slashCombinationsWithoutUnicode#0;class#Scan#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
