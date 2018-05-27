@@ -1,5 +1,5 @@
-unit OConverter;
-{ Конвертор }
+unit OScan;
+{ Сканер }
 
 interface
 
@@ -16,7 +16,7 @@ type
    lexEQ, lexNE, lexLT, lexLE, lexGT, lexGE,
    lexDot, lexComma, lexColon, lexSemi, lexAss,
    lexLpar, lexRpar,
-   lexEOT);
+   lexEOT, lexINTEGER);
 
 var
    Lex: tLex;    {Текущая лексема            }
@@ -24,8 +24,9 @@ var
    Num: integer; {Значение числовых литералов}
    LexPos: integer;{Позиция начала лексемы     }
 
-procedure InitConvertor;
+procedure InitScan;
 procedure NextLex;
+procedure CountOfLex;
 
 {=======================================================}
 implementation
@@ -34,17 +35,13 @@ uses
    OText, OError;
 
 const
-   KWNum = 34;
+   KWNum = 35;
 
 type
    tKeyWord = string[9];{Длина слова PROCEDURE}
 
 var
-   LexTable: array [1..KWNum] of
-   record
-      Lex: tLex;
-      Count: integer = 0;
-   end;   
+   arr: array[1..100] of string; 
    nkw: integer;
    KWTable: array [1..KWNum] of
    record
@@ -52,23 +49,6 @@ var
       Lex: tLex;
       Count: integer = 0;
    end;
-   
-   f: text;
-
-
-procedure InitLT;
-var
-   i: integer;
-   lex: tLex;
-begin
-   LexTable[1].Lex := lex;
-   lex := tLex.lexNone;
-   for i := 2 to KWNum do 
-   begin
-      LexTable[i].Lex := succ(lex);
-      lex := LexTable[i].Lex;
-   end;
-end;
 
 procedure EnterKW(Name: tKeyWord; Lex: tLex);
 var
@@ -92,7 +72,6 @@ begin
       i := l + (r - l) div 2;
       if KWTable[i].Word = Name then begin
          TestKW := KWTable[i].Lex;
-         Inc(KWTable[i].Count);
          b := false;
       end;
       if KWTable[i].Word < Name then 
@@ -100,10 +79,9 @@ begin
       else 
          r := i - 1;
    end; 
-   if b then begin
+   if b then
+      while ()
       TestKW := lexName;
-      Inc(LexTable[2].Count);
-   end;
 end;
 
 procedure Ident;
@@ -129,7 +107,6 @@ var
    d: integer;
 begin
    Lex := lexNum;
-   Inc(LexTable[3].Count);
    Num := 0;
    repeat
       d := ord(Ch) - ord('0');
@@ -176,7 +153,7 @@ begin
       ';': 
          begin
             NextCh;
-            Lex := lexSemi;
+            Lex := lexSemi;           
          end;
       ':':
          begin
@@ -184,10 +161,11 @@ begin
             if Ch = '=' then begin
                NextCh;
                Lex := lexAss;
+               
             end
-            else begin
+            else
                Lex := lexColon;
-            end;
+            
          end;
       '.': 
          begin
@@ -215,11 +193,9 @@ begin
             if Ch = '=' then begin
                NextCh;
                Lex := lexLE;
-               
             end
-            else begin
+            else
                Lex := lexLT;
-            end;   
          end;
       '>': 
          begin
@@ -228,10 +204,8 @@ begin
                NextCh;
                Lex := lexGE;
             end
-            else begin
-               write(f, '>');
+            else
                Lex := lexGT;
-            end;
          end;
       '(': 
          begin
@@ -240,9 +214,8 @@ begin
                Comment;
                NextLex;
             end
-            else begin
+            else
                Lex := lexLpar;
-            end;   
          end;
       ')': 
          begin
@@ -264,26 +237,16 @@ begin
             NextCh;
             Lex := lexMult;
          end;
-      chEOT: 
-         begin       
-            Lex := lexEOT;
-            close(f);
-         end;
+      chEOT: Lex := lexEOT;
    else
       Error('Недопустимый символ');
    end;
 end;
 
-procedure InitConvertor;
+procedure InitScan;
 begin
-   assign(f, 'Res.txt');
-   rewrite(f);
-   Pos := 0;
-   Line := 1;
-   NextCh;
-   
    nkw := 0;
-   InitLT;
+   
    EnterKW('ARRAY',     lexNone);
    EnterKW('BEGIN',     lexBEGIN);
    EnterKW('BY',        lexNone);
@@ -299,6 +262,7 @@ begin
    EnterKW('IF',        lexIF);
    EnterKW('IMPORT',    lexIMPORT);
    EnterKW('IN',        lexNone);
+   EnterKW('INTEGER',      lexINTEGER);
    EnterKW('IS',        lexNone);
    EnterKW('LOOP',      lexNone);
    EnterKW('MOD',       lexMOD);
@@ -322,4 +286,15 @@ begin
    NextLex;
 end;
 
+procedure CountOfLex;
+var
+   i: integer;
+begin
+   for i := 1 to KWNum do 
+   begin
+      Writeln(KWTable[i].Word, ' = ', KWTable[i].Count)
+   end;
+end;
+
 end.
+

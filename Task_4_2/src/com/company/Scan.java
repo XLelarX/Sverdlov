@@ -122,7 +122,7 @@ class Scan {
 
             if (bigDec.compareTo(bigMax) > 0) {
                 Location.LexPos = Location.Pos;
-                Error.Message("Слишком большое число");
+                //Error.Message("Слишком большое число");
             }
 
             Text.NextCh();
@@ -171,7 +171,7 @@ class Scan {
 
                 if (nom.equals(bigMax) && 0 != Text.ch - '0' && !isDouble() && !isLong()) {
                     Location.LexPos = Location.Pos;
-                    Error.Message("Слишком большое число");
+                    //Error.Message("Слишком большое число");
                 }
 
                 if (!isFloat() && !isDouble() && !isE()) {
@@ -236,7 +236,7 @@ class Scan {
                     index = 10 * index + d;
                 else {
                     Location.LexPos = Location.Pos;
-                    Error.Message("Слишком большое число");
+                    //Error.Message("Слишком большое число");
                 }
 
             else {
@@ -246,12 +246,12 @@ class Scan {
                     //System.out.println((char) Text.ch);
                 } else {
                     Location.LexPos = Location.Pos;
-                    Error.Message("Слишком большое число");
+                    // Error.Message("Слишком большое число");
                 }
 
                 if (nom.compareTo(bigMax) > 0) {
                     Location.LexPos = Location.Pos;
-                    Error.Message("Слишком большое число");
+                    //Error.Message("Слишком большое число");
                 }
             }
 
@@ -276,12 +276,12 @@ class Scan {
 
         if (sum.compareTo(max) > 0) {
             Location.LexPos = Location.Pos - 1;
-            Error.Message("Слишком большое число");
+            // Error.Message("Слишком большое число");
         }
 
         if (sum.compareTo(max) == 0 && endOfFloat != 0) {
             Location.LexPos = Location.Pos - 1;
-            Error.Message("Слишком большое число");
+            //  Error.Message("Слишком большое число");
         }
     }
 
@@ -290,7 +290,7 @@ class Scan {
 
         if (sum.compareTo(max) > 0) {
             Location.LexPos = Location.Pos - 1;
-            Error.Message("Слишком большое число");
+            //Error.Message("Слишком большое число");
         }
     }
 
@@ -299,7 +299,7 @@ class Scan {
 
         if (sum.compareTo(max) > 0) {
             Location.LexPos = Location.Pos - 1;
-            Error.Message("Слишком большое число");
+            // Error.Message("Слишком большое число");
         }
     }
 
@@ -329,7 +329,7 @@ class Scan {
                     sum += d;
                 } else {
                     Location.LexPos = Location.Pos;
-                    Error.Message("Слишком большое число");
+                    //Error.Message("Слишком большое число");
                 }
                 j++;
             }
@@ -377,7 +377,7 @@ class Scan {
                     sum += d;
                 } else {
                     Location.LexPos = Location.Pos;
-                    Error.Message("Слишком большое число");
+                    //Error.Message("Слишком большое число");
                 }
                 j++;
             }
@@ -426,7 +426,7 @@ class Scan {
                     sum += d;
                 } else {
                     Location.LexPos = Location.Pos;
-                    Error.Message("Слишком большое число");
+                    //Error.Message("Слишком большое число");
                 }
                 j++;
             }
@@ -455,7 +455,7 @@ class Scan {
 
         if (sum > max) {
             Location.LexPos = Location.Pos;
-            Error.Message("Слишком большое число");
+            //Error.Message("Слишком большое число");
         }
         return max;
     }
@@ -465,17 +465,17 @@ class Scan {
     }
 
     private static void Comment() {
-        Text.NextCh();
+        Text.NextChForChar();
         do {
             while (Text.ch != '*' && Text.ch != Text.chEOT)
-                Text.NextCh();
+                Text.NextChForChar();
 
             if (Text.ch == '*')
-                Text.NextCh();
+                Text.NextChForChar();
         } while (Text.ch != '/' && Text.ch != Text.chEOT);
 
         if (Text.ch == '/')
-            Text.NextCh();
+            Text.NextChForChar();
         else {
             Location.LexPos = Location.Pos;
             Error.Message("Комментарий не закончен");
@@ -483,10 +483,10 @@ class Scan {
     }
 
     private static void lineComment() {
-        Text.NextCh();
+        Text.NextChForChar();
 
         while (Text.ch != Text.chEOT && Text.ch != Text.chEOL)
-            Text.NextCh();
+            Text.NextChForChar();
     }
 
     private static void string() {//TODO String lex + Slash lex?
@@ -494,32 +494,34 @@ class Scan {
             boolean ok = true;
 
             if (Text.ch == '\\') {
-                Text.NextCh();
+                Text.NextChForChar();
                 ok = false;
                 slashCombinations();
             }
 
             if (ok)
-                Text.NextCh();
+                Text.NextChForChar();
 
         }
 
         if (Text.ch == '"')
             Text.NextCh();
-        else
+        else {
+            Location.LexPos = Location.Pos;
             Error.Message("String не закончен");
+        }
     }
 
     private static void character() {
         if (Text.ch != '\'') {
             boolean ok = true;
             if (Text.ch == '\\') {
-                Text.NextCh();
+                Text.NextChForChar();
                 ok = false;
                 slashCombinations();
             }
             if (ok)
-                Text.NextCh();
+                Text.NextChForChar();
 
             if (Text.ch == '\'') {
                 Text.NextCh();
@@ -649,11 +651,13 @@ class Scan {
                         }
                     } else if (isFloat() || isDouble()) {
                         Text.NextCh();
-                    } else if (isE()) {
-                        E(new BigDecimal(0), new BigDecimal(0), 309, 0);
-                        if (isFloat() || isDouble())
-                            Text.NextCh();
-                    } else
+                    }
+//                    else if (isE()) {
+//                        E(new BigDecimal(0), new BigDecimal(0), 309, 0);
+//                        if (isFloat() || isDouble())
+//                            Text.NextCh();
+//                    }
+                    else
                         Lex = lexDot;
                     break;
 
@@ -838,13 +842,13 @@ class Scan {
                     break;
 
                 case '"':
-                    Text.NextCh();
+                    Text.NextChForChar();
                     string();
                     Lex = lexString;
                     break;
 
                 case '\'':
-                    Text.NextCh();
+                    Text.NextChForChar();
                     character();
                     Lex = lexCharacter;
                     break;
@@ -865,28 +869,28 @@ class Scan {
         else if (isOctNumber())
             numberOfLatin();
         else if (Text.ch == 'b') {
-            Text.NextCh();
+            Text.NextChForChar();
             Lex = lexBS;
         } else if (Text.ch == 't') {
-            Text.NextCh();
+            Text.NextChForChar();
             Lex = lexHT;
         } else if (Text.ch == 'n') {
-            Text.NextCh();
+            Text.NextChForChar();
             Lex = lexLF;
         } else if (Text.ch == 'f') {
-            Text.NextCh();
+            Text.NextChForChar();
             Lex = lexFF;
         } else if (Text.ch == 'r') {
-            Text.NextCh();
+            Text.NextChForChar();
             Lex = lexCR;
         } else if (Text.ch == '\"') {
-            Text.NextCh();
+            Text.NextChForChar();
             Lex = lexDoubleQuote;
         } else if (Text.ch == '\'') {
-            Text.NextCh();
+            Text.NextChForChar();
             Lex = lexQuote;
         } else if (Text.ch == '\\') {
-            Text.NextCh();
+            Text.NextChForChar();
             Lex = lexBackSlash;
         } else {
             Location.LexPos = Location.Pos;
@@ -929,7 +933,7 @@ class Scan {
 
     private static void numberOfUnicode() {
         while (Text.ch == 'u')
-            Text.NextCh();
+            Text.NextChForChar();
 
         String checkString = "\\u";
 
@@ -942,7 +946,7 @@ class Scan {
                 Text.NextCh();
                 slashCombinationsWithoutUnicode();
             } else if (isHexNumber())
-                Text.NextCh();
+                Text.NextChForChar();
             else {
                 Location.LexPos = Location.Pos + 1;
                 Error.Message("Недопустимый символ");

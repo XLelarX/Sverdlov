@@ -1,17 +1,17 @@
-unit OText;
-{Драйвер исходного текста}
+п»їunit OText;
+{Р”СЂР°Р№РІРµСЂ РёСЃС…РѕРґРЅРѕРіРѕ С‚РµРєСЃС‚Р°}
 
 interface
 
 const
-   chSpace = ' '; {Пробел }
-   chTab = #9; {Табуляция }
-   chEOL = #10; {Конец строки}
-   chEOT = #0; {Конец текста}
+   chSpace = ' '; {РџСЂРѕР±РµР» }
+   chTab = #9; {РўР°Р±СѓР»СЏС†РёСЏ }
+   chEOL = #10; {РљРѕРЅРµС† СЃС‚СЂРѕРєРё}
+   chEOT = #0; {РљРѕРЅРµС† С‚РµРєСЃС‚Р°}
 var
-   Ch : char; {Очередной символ }
-   Line : integer; {Номер строки }
-   Pos : integer; {Номер символа в строке}
+   Ch : char; {РћС‡РµСЂРµРґРЅРѕР№ СЃРёРјРІРѕР» }
+   Line : integer; {РќРѕРјРµСЂ СЃС‚СЂРѕРєРё }
+   Pos : integer; {РќРѕРјРµСЂ СЃРёРјРІРѕР»Р° РІ СЃС‚СЂРѕРєРµ}
 
 procedure NextCh;
 procedure ResetText;
@@ -32,7 +32,7 @@ var
 
 procedure ResetText;
 begin
-   Assign(f, 'TEST.txt');
+   Assign(f, 'Primes.o');
    Reset(f);
    Pos := 0;
    Line := 1;

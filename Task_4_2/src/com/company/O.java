@@ -1,6 +1,7 @@
 package com.company;
 
 import java.io.File;
+import java.util.Scanner;
 
 public class O {
     private static void Init() {
@@ -14,12 +15,15 @@ public class O {
         Text.Close();
     }
 
+
     public static void main(String[] args) {
+       // System.out.println(.e23);
         System.out.println(Integer.MAX_VALUE + "     " + Long.MAX_VALUE);
         System.out.println("Компилятор языка Java");
         showoutFiles(convertHumanReadableFormatToRegex(args[0]));
 
     }
+
 
     private static String convertHumanReadableFormatToRegex(String arg) {
         return arg.replaceAll("\\.", "\\*")

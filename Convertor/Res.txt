@@ -1,0 +1,55 @@
+package com.company;
+
+import java.util.Scanner;
+
+public class Main {
+public static class Int{
+   int n;
+}
+private static Scanner in = new Scanner(System.in);
+
+public static void main(String[] args){
+   $Int = 11;
+   $Out$Int($n.n, $w.n);
+   }static private void OutLn() {
+   System.out.println();
+}
+static private int MAX(int x) {
+   return Integer.MAX_VALUE;
+}
+static private int MIN(int x) {
+   return Integer.MIN_VALUE;
+}
+static private void INC(Int n) {
+   n.n += 1;
+}
+static private void INC(Int n, int v) {
+   n.n += v;
+}
+static private boolean ODD(int x){
+   return x % 2 == 1;
+}
+static private void DEC(Int n, int v) {
+   n.n -=  v;
+}
+static private void DEC(Int n) {
+   n.n -=  1;
+}
+static private int ABS(int x) {
+   return Math.abs(x);
+}
+static private void HALT(int n){
+   System.exit(n);
+}
+static private void OutInt(int v, int n) {
+   for (int i = 1;i < n;i++) {
+      System.out.print(" ");
+   }
+   System.out.print(v);
+}
+static private void InOpen(){
+}
+static private void InInt(Int v){
+   v.n = in.nextInt();
+}
+}

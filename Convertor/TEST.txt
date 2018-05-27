@@ -1,0 +1,35 @@
+MODULE Euqlid;
+
+
+
+IMPORT In, Out;
+
+
+
+VAR
+   
+   X, Y: INTEGER;
+
+
+BEGIN
+  
+   X := Y;
+
+   X := Y;
+
+   WHILE X # Y DO
+
+      IF X > Y THEN
+
+         DEC( X, Y )
+
+      ELSE
+
+         DEC( Y, X )
+
+      END;
+
+   END;
+   Out.Int(X,1);
+
+END Euqlid.

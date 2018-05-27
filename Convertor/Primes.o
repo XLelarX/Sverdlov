@@ -1,0 +1,8 @@
+MODULE Primes;
+IMPORT
+   Out;
+
+BEGIN
+	Int := 11;
+         Out.Int(n, w);
+END Primes.

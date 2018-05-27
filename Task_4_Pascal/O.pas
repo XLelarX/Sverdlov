@@ -1,7 +1,7 @@
-program O;
+п»їprogram O;
 
 uses
-  OText, OScan, OPars, OVM, OGen, OConverter, OParsForConverter;
+  OText, OScan, OPars, OVM, OGen;
 
 procedure Init;
 begin
@@ -16,14 +16,11 @@ begin
 end;
 
 begin
-   WriteLn('Компилятор языка O');
-   Init;    {Инициализация}
-   Compile; {Компиляция}
-   Run;     {Выполнение}
-   InitConvertor;
-   Compile2;
-   Done;    {Завершение}
-   
+   WriteLn('РљРѕРјРїРёР»СЏС‚РѕСЂ СЏР·С‹РєР° O');
+   Init;    {РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ}
+   Compile; {РљРѕРјРїРёР»СЏС†РёСЏ}
+   Run;     {Р’С‹РїРѕР»РЅРµРЅРёРµ}
+   Done;    {Р—Р°РІРµСЂС€РµРЅРёРµ}
 end.
 
 

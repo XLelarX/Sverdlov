@@ -41,6 +41,23 @@ class Text {
         }
     }
 
+    static void NextChForChar() {
+        try {
+            if ((ch = f.read()) == -1)
+                ch = chEOT;
+            else if (ch == '\r')
+                NextChForChar();
+            else if (ch != '\t') {
+                System.out.write(ch);
+                Location.Pos++;
+            } else
+                do {
+                    System.out.println(' ');
+                } while (++Location.Pos % TAB_SIZE != 0);
+        } catch (IOException ignored) {
+        }
+    }
+
     private static char nextUnicode() throws IOException {
 
         char chbuf = (char) f.read();

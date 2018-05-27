@@ -1,1 +1,9 @@
-adsafafa sdad
+//\u002f\u002f
+//x ab747xy _x x_ _ $y y$ $$
+//\u0041\u0061\u0391\u0430
+//if native
+//0 2 0372 0xDadaCafe
+//0123456789l
+//0xffL0x0L0L0x123456789abcdefL
+//123.456E-12D.123 .123e5 .123F123e1
+'a' '\t' '\\' '\'' '\u03a9'  "\""

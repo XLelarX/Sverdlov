@@ -1,0 +1,24 @@
+MODULE Primes;
+IMPORT
+   Out;
+   
+CONST
+   n1 = 2;
+   n2 = 1000;
+   w = 10;
+VAR
+   n: INTEGER;
+   d: INTEGER;
+BEGIN
+   n := n1;
+   WHILE n <= n2 DO
+      d := 2;
+      WHILE n MOD d # 0 DO
+         d := d + 1;
+      END;
+      IF d = n THEN
+         Out.Int(n, w);
+      END;
+      n := n + 1;
+   END;
+END Primes.

@@ -1,0 +1,44 @@
+MODULE OJob;
+
+IMPORT Out, In;
+
+VAR 
+   n, i : INTEGER;
+
+CONST 
+	psdd = 7;
+
+BEGIN
+	n:=0;
+	In.Open;
+	In.Int(i);
+	WHILE i DIV 4 <= 10 DO
+		n:=i;
+		n:=n DIV 4;
+		INC(i, 1);
+		DEC(n, 1);
+	END;
+	Out.Int(n, 0); Out.Ln;
+	IF i <= 100 THEN 
+		Out.Ln;
+		Out.Ln
+	ELSIF i <= 200 THEN
+		Out.Ln
+	ELSE
+		Out.Ln
+	END;
+	IF ABS(i) <= 100 THEN 
+		Out.Ln
+	END;
+	IF i <= 100 THEN 
+		Out.Int(MIN(INTEGER), 0)
+	END;
+	IF MIN(INTEGER) <= 100 THEN 
+		Out.Int(MIN(INTEGER), 0)
+	END;
+	IF ODD(i) THEN 
+		Out.Ln
+	END;
+	Out.Int(i, 0)
+	
+END OJob.
